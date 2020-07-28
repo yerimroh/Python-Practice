@@ -76,7 +76,6 @@ def growBody():
 # Game Loop
 isRunning = True
 isGameOver = False
-
 while(isRunning):
     dt = clock.tick(30) # FPS = 30
     for event in pygame.event.get():
@@ -101,7 +100,6 @@ while(isRunning):
                 toX = 0
                 direction = "DOWN"
 
-        
             # When the player let go of the keyboard (do not move)
         if event.type == pygame.KEYUP and isGameOver == False:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
@@ -109,7 +107,7 @@ while(isRunning):
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 toY = 0
 
-    if isGameOver == False:
+    if isGameOver == False and event.type == pygame.KEYDOWN:
         # store the movement to trace the path the head took
         newX = []
         newY = []
@@ -121,9 +119,11 @@ while(isRunning):
         head.left += int(toX * dt)
         head.top += int(toY * dt)
         
+        # make the body to follow the trace of the path 
         for j in range(0, len(newX)):
             nodes[j + 1].left = newX[j]
             nodes[j + 1].top = newY[j]
+
 
     ######################################################################
     # Handle game events
@@ -141,10 +141,18 @@ while(isRunning):
 
     # when the snake obtains the apple
     if head.colliderect(appleRect):
+        pygame.mixer.Sound.play(eatingSound)
         appleX = randrange(5, screenWidth - appleWidth)
         appleY = randrange(5, screenHeight - appleHeight) 
         totalApple += 1
         growBody()
+
+    # When the snake head collides with its body
+    for node in nodes:
+        if head.colliderect(node) and nodes.index(node) > 4:
+            isGameOver = True
+            background = pygame.image.load("C:\\Users\\yerim\\Desktop\\Code learning\\Python\\실전연습\\뱀게임\\gameover.png")
+
 
     #####################################################################
     # Draw components on the screen
