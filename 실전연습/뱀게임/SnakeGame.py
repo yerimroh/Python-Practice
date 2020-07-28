@@ -5,11 +5,19 @@ pygame.init() # Initializing
 #############################################################
 # The node class that composese the snake's body
 headSize = 20
-class Node(pygame.Rect):
+class Node(pygame.Rect, Snake):
     def __init__(self, x, y):
         super().__init__(x, y, headSize, headSize) # Initialte the Rect class
-
 ##############################################################
+# Class that represents the snake
+class Snake:
+    def __init__(self, nodes):
+        self.nodes = nodes
+
+    def growBody(self):
+        newNode = Node(nodes[nodes.index(self) - 1].left, nodes[nodes.index(self) - 1].top)
+
+
 # Screen setting
 screenWidth = 460
 screenHeight = 640
@@ -31,12 +39,15 @@ background = pygame.image.load("C:\\Users\\yerim\\Desktop\\Code learning\\Python
 
 eatingSound = pygame.mixer.Sound("C:\\Users\\yerim\\Desktop\\Code learning\\Python\\실전연습\\뱀게임\\eating sound effect.wav")
 
+apple = pygame.image.load("C:\\Users\\yerim\\Desktop\\Code learning\\Python\\실전연습\\뱀게임\\apple.png")
 #############################################################
 # Snake Setting
 snakeSpeed = 0.6
 
 toX = 0
 toY = 0
+
+totalApple = 0 # keep track of the number of apples that the snake got
 
 # Snake Head
 head = Node((screenWidth / 2 - headSize / 2), (screenHeight / 2 - headSize / 2)) # Create head
@@ -52,31 +63,48 @@ while(isRunning):
             isRunning = False
             # Handle keyboard inputs
         if event.type == pygame.KEYDOWN and isGameOver == False:
-            if event.key == pygame.K_RIGHT and not(event.key == pygame.K_UP or event.key == pygame.K_DOWN):
+            if event.key == pygame.K_RIGHT:
                 toX += snakeSpeed
-            elif event.key == pygame.K_LEFT and not(event.key == pygame.K_UP or event.key == pygame.K_DOWN):
+                toY = 0
+            elif event.key == pygame.K_LEFT:
                 toX -= snakeSpeed
-            elif event.key == pygame.K_UP and not(event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT):
+                toY = 0
+            elif event.key == pygame.K_UP:
                 toY -= snakeSpeed
-            elif event.key == pygame.K_DOWN and not(event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT):
+                toX = 0
+            elif event.key == pygame.K_DOWN:
                 toY += snakeSpeed
+                toX = 0
 
-            # If the snake collides any of the edges of the screen
+            # When the player let go of the keyboard (do not move)
         if event.type == pygame.KEYUP and isGameOver == False:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 toX = 0
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 toY = 0
 
     # move around the head
-    head.left += toX * dt
-    head.top += toY * dt
+    head.left += int(toX * dt)
+    head.top += int(toY * dt)
 
-        # Draw components on the screen
+    ######################################################################
+    # Handle game events
+    # If the snake collides with any of the edges of the screen
+    if head.left > screenWidth - headSize or head.left < -5:
+        isGameOver = True
+        background = pygame.image.load("C:\\Users\\yerim\\Desktop\\Code learning\\Python\\실전연습\\뱀게임\\background.png")
+    elif head.top > screenHeight - headSize or head.left < -5:
+        isGameOver = True
+        background = pygame.image.load("C:\\Users\\yerim\\Desktop\\Code learning\\Python\\실전연습\\뱀게임\\background.png")
+
+
+
+    #####################################################################
+    # Draw components on the screen
     screen.blit(background, (0, 0)) # background
 
     if isGameOver == False:
-        screen.blit(head, (head.left, head.right))
+        pygame.draw.rect(screen, snakeColor, head)
 
     pygame.display.update() # update the screen each time
 
