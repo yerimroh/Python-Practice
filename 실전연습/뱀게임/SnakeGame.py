@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 from pygame.locals import *
 from random import*
@@ -31,11 +32,11 @@ snakeColor = (55, 120, 120) # color of the snake
 clock = pygame.time.Clock() # FPS
 ##############################################################
 # Load sources
-background = pygame.image.load("sources/background.png")
+background = pygame.image.load("sources\\background.png")
 
-eatingSound = pygame.mixer.Sound("sources/eating sound effect.wav")
+eatingSound = pygame.mixer.Sound("sources\\eating sound effect.wav")
 
-apple = pygame.image.load("sources/apple.png")
+apple = pygame.image.load("sources\\apple.png")
 appleSize = apple.get_rect().size 
 appleWidth = appleSize[0]
 appleHeight = appleSize[1]
@@ -131,10 +132,10 @@ while(isRunning):
     # If the snake collides with any of the edges of the screen
     if head.left > screenWidth - headSize or head.left < -5:
         isGameOver = True
-        background = pygame.image.load("sources/gameover.png")
+        background = pygame.image.load("sources\\gameover.png")
     elif head.top > screenHeight - headSize or head.left < -5:
         isGameOver = True
-        background = pygame.image.load("sources/gameover.png")
+        background = pygame.image.load("sources\\gameover.png")
 
     appleRect = apple.get_rect() # apple
     appleRect.left = appleX
@@ -152,7 +153,7 @@ while(isRunning):
     for node in nodes:
         if head.colliderect(node) and nodes.index(node) > 4:
             isGameOver = True
-            background = pygame.image.load("뱀게임/sources/gameover.png")
+            background = pygame.image.load("sources\\gameover.png")
 
 
     #####################################################################
