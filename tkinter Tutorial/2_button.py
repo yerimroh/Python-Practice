@@ -21,9 +21,18 @@ btn4 = Button(root, fg = "cornsilk4", bg = "yellow", text="버튼4")
 btn4.pack()
 
 # 이미지를 사용해서 버튼 생성
-btnImage = PhotoImage(file = "button background.png")
+btnImage = PhotoImage(file = "tkinter Tutorial\\button background.png")
 btn5 = Button(root, image = btnImage)
 btn5.pack()
+
+
+# 버튼에 동작 넣기
+
+def btnCmd():
+    print("클릭!")
+
+btn6 = Button(root, text = "동작하는 버튼", command = btnCmd)
+btn6.pack()
 
 
 root.mainloop() #pygame.init() 같이 초기화해줌
