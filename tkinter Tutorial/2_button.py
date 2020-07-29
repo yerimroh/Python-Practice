@@ -27,12 +27,11 @@ btn5.pack()
 
 
 # 버튼에 동작 넣기
-
 def btnCmd():
     print("클릭!")
 
-btn6 = Button(root, text = "동작하는 버튼", command = btnCmd)
-btn6.pack()
+btn6 = Button(root, text = "동작하는 버튼", command = btnCmd) # 버튼을 클릭하면 btnCmd() 를 실행
+btn6.pack() 
 
 
 root.mainloop() #pygame.init() 같이 초기화해줌
