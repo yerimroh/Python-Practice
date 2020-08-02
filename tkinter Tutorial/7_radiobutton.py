@@ -5,32 +5,38 @@ root.title("Nado GUI") # 제목 설정
 root.geometry("640x480") # 화면 크기
 
 ###################################################
-# 체크 박스 (체크/체크 해제 가능)
+# 여러개의 옵션 중에 하나를 선택할 수 있는 라디오버튼 위젯
 
-checkVariable = IntVar() # checkVariable에 int형으로 값을 저장.
-checkbox = Checkbutton(root, text = "오늘 하루 보지 않기", variable = checkVariable)
+# 버거 주문칸 
+label1 = Label(root, text = "메뉴를 선택하세요").pack()
 
-# 프로그램 내에서 선택/해제 하기
-checkbox.select() # 선택 함
-checkbox.deselect() # 선택 해제
+burger_var = IntVar() # 다 같은 세트로 묶어줘야하기 땜에 var하나만 만들어두됨
+btn_burger1 = Radiobutton(root, text = "햄버거", value = 1, variable = burger_var)
+btn_burger2 = Radiobutton(root, text = "불고기버거", value = 2, variable = burger_var)
+btn_burger3 = Radiobutton(root, text = "치즈버거", value = 3, variable = burger_var)
 
-checkbox.pack()
+btn_burger1.pack()
+btn_burger2.pack()
+btn_burger3.pack()
 
-# 체크박스를 만들때 var도 새로 만들어줘야 함
-checkVariable2 = IntVar()
-chkbox2 = Checkbutton(root, text = "일주일동안 보지 않기", variable = checkVariable2)
-chkbox2.pack()
+# 음료 주문칸
+label2 = Label(root, text = "음료를 선택하세요")
+label2.pack()
 
+drink_var = StringVar()
+btn_drink1 = Radiobutton(root, text = "콜라", value = "콜라", variable = drink_var)
+btn_drink1.select() # 미리 선택한 채로 시작 
+btn_drink2 = Radiobutton(root, text = "사이다", value = "사이다", variable = drink_var)
 
-
-
+btn_drink1.pack()
+btn_drink2.pack()
 
 
 def btnCmd():
-    # 프로그램 내에서 체크의 여부 확인
-    print(checkVariable.get()) # 숫자 0 = 체크 x ; 숫자 1 = 체크 o 
+    print(burger_var.get()) # 선택된 라디오 항목의 값(value)를 출력
+    print(drink_var.get()) # 음료 중 선택된 값을 출력
 
-btn = Button(root, text = "클릭", command = btnCmd)
+btn = Button(root, text = "주문하기", command = btnCmd)
 btn.pack()
 
 
